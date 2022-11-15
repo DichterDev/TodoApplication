@@ -1,73 +1,95 @@
 using System;
+using System.Collections.Generic;
 
-public class Task 
+namespace TodoApplication
 {
-    /*
-     * TODO
-     * Name
-     * Description
-     * Date
-     * Completion Status
-     * Reminder
-     * Additional: Subtasks
-     * 
-     */
-
-    string taskName
+    public class Task
     {
-        get
+        /*
+         * TODO
+         * Name
+         * Description
+         * Date
+         * Completion Status
+         * Reminder
+         * Additional: Subtasks
+         * 
+         */
+
+        string taskName { get; set; }
+
+        string taskDescription { get; set; }
+        DateTime taskDate { get; set; }
+        bool isCompleted { get; set; }
+        int completionStatus { get; set; }
+        List<SubTask> Subtasks = new List<SubTask>();
+
+        public void SetTaskName(string name)
         {
-            return taskName;
+            if (name == null)
+            {
+                NullError("Taskname");
+            }
+
+            this.taskName = name;
         }
 
-        set
+        public void SetTaskDescription(string description)
         {
-            taskName = value;
-            OnChange();
+            if (description == null)
+            {
+                NullError("Taskdescription");
+            }
+
+            this.taskDescription = description;
+        }
+
+        public void SetTaskDate(DateTime date)
+        {
+            if (date == null)
+            {
+                NullError("Taskdate");
+            }
+
+            this.taskDate = date;
+        }
+
+        public void AddSubTask(SubTask subTask)
+        {
+            this.Subtasks.Add(subTask);
+        }
+
+
+        /// <summary>
+        /// A function that calls the error popup
+        /// </summary>
+        /// <param name="cause"></param>
+        private void NullError(string cause)
+        {
+            // Call Error using cause 
         }
     }
 
-    string taskDescription { get; set; }
-    DateTime taskDate { get; set; }
-    bool isCompleted { get; set; }
-    // Subtask Subtasks
-
-
-    /// <summary>
-    /// The function that gets called on every change of a Task.
-    /// </summary>
-    private void OnChange()
+    public class SubTask
     {
+        string subTaskName { get; set; }
+        bool isCompleted { set; get; } = false;
+        Task Task { get; set; }
 
-    }
-
-    public void SetTaskName(string name)
-    {
-        if (name == null)
+        public void SetSubtaskName(string name)
         {
-            NullError("Taskname");
+            this.subTaskName = name;
         }
-        
-        this.taskName = name;
+
+        public void ChangeCompletion()
+        {
+            this.isCompleted = !isCompleted;
+        }
+
+        public void AddToTask()
+        {
+            Task.AddSubTask(this);
+        }
     }
 
-    public void SetTaskDescription(string description)
-    {
-        this.taskDescription = description;
-    }
-
-    public void SetTaskDate(DateTime date)
-    {
-        this.taskDate = date;
-    }
-
-
-    /// <summary>
-    /// A function that calls the error popup
-    /// </summary>
-    /// <param name="cause"></param>
-    private void NullError(string cause)
-    {
-        // Call Error using cause 
-    }
 }
